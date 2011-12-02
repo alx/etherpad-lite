@@ -119,7 +119,7 @@ function loadBroadcastJS()
     clientVars.initialStyledContents.atext.attribs, clientVars.initialStyledContents.atext.text),
 
     // generates a jquery element containing HTML for a line
-    lineToElement: function(line, aline)
+    lineToElement: function(line, aline, lineCount)
     {
       var element = document.createElement("div");
       var emptyLine = (line == '\n');
@@ -128,7 +128,7 @@ function loadBroadcastJS()
       domInfo.prepareForAdd();
       element.className = domInfo.node.className;
       element.innerHTML = domInfo.node.innerHTML;
-      element.id = "line-" + Math.random().toString().replace("0.", "");
+      element.id = "line-" + lineCount;
       return $(element);
     },
 
@@ -147,7 +147,7 @@ function loadBroadcastJS()
       var newDivs = [];
       for (var i = 0; i < newLines.length; i++)
       {
-        newDivs.push(this.lineToElement(newLines[i], this.alines[start + i]));
+        newDivs.push(this.lineToElement(newLines[i], this.alines[start + i], i));
       }
 
       // grab the div just before the first one
