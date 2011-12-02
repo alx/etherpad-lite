@@ -128,7 +128,7 @@ function loadBroadcastJS()
       domInfo.prepareForAdd();
       element.className = domInfo.node.className;
       element.innerHTML = domInfo.node.innerHTML;
-      element.id = Math.random();
+      element.id = "line-" + Math.random().toString().replace("0.", "");
       return $(element);
     },
 
