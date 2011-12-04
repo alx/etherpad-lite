@@ -21,10 +21,10 @@ var ERR = require("async-stacktrace");
 
 function getPadPlainText(pad, revNum)
 {
-  var atext = ((revNum !== undefined) ? pad.getInternalRevisionAText(revNum) : pad.atext());
+  var atext = ((revNum !== undefined) ? pad.getInternalRevisionAText(revNum) : pad.atext);
   var textLines = atext.text.slice(0, -1).split('\n');
   var attribLines = Changeset.splitAttributionLines(atext.attribs, atext.text);
-  var apool = pad.pool();
+  var apool = pad.pool;
 
   var pieces = [];
   for (var i = 0; i < textLines.length; i++)
@@ -409,21 +409,31 @@ function _analyzeLine(text, aline, apool)
   return line;
 }
 
-exports.getPadHTMLDocument = function (padId, revNum, noDocType, callback)
+exports.getPadHTMLDocument = function (padId, revNum, noDocType, isMarkdown, callback)
 {
   padManager.getPad(padId, function (err, pad)
   {
     if(ERR(err, callback)) return;
 
-    var head = (noDocType ? '' : '<!doctype html>\n') + '<html lang="en">\n' + (noDocType ? '' : '<head>\n' + '<meta charset="utf-8">\n' + '<style> * { font-family: arial, sans-serif;\n' + 'font-size: 13px;\n' + 'line-height: 17px; }</style>\n' + '</head>\n') + '<body>';
-
-    var foot = '</body>\n</html>\n';
-
-    getPadHTML(pad, revNum, function (err, html)
+    if(isMarkdown)
     {
-      if(ERR(err, callback)) return;
-      callback(null, head + html + foot);
-    });
+
+      var plain_text = getPadPlainText(pad);
+      var html = require( "markdown" ).markdown.toHTML(plain_text);
+
+      callback(null, html);
+
+    } else {
+
+      var head = (noDocType ? '' : '<!doctype html>\n') + '<html lang="en">\n' + (noDocType ? '' : '<head>\n' + '<meta charset="utf-8">\n' + '<style> * { font-family: arial, sans-serif;\n' + 'font-size: 13px;\n' + 'line-height: 17px; }</style>\n' + '</head>\n') + '<body>';
+      var foot = '</body>\n</html>\n';
+
+      getPadHTML(pad, revNum, function (err, html)
+      {
+        if(ERR(err, callback)) return;
+        callback(null, head + html + foot);
+      });
+    }
   });
 }
 
