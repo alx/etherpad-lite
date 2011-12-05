@@ -439,8 +439,8 @@ exports.getPadDeckDocument = function (padId, revNum, noDocType, callback)
 
     var plainText =getPadPlainText(pad);
 
-    var html = '<section class="slide">' + require( "markdown" ).markdown.toHTML(plainText) + '</div>';
-    html = html.replace("<p>== next_slide ==</p>", '</div><section class="slide">');
+    var html = '<section class="slide">' + require( "markdown" ).markdown.toHTML(plainText) + '</section>';
+    html = html.replace("<p>== next_slide ==</p>", '</section><section class="slide">');
 
 
     callback(null, head + html + foot);
