@@ -18,6 +18,7 @@ var async = require("async");
 var Changeset = require("./Changeset");
 var padManager = require("../db/PadManager");
 var ERR = require("async-stacktrace");
+var fs = require("fs");
 
 function getPadPlainText(pad, revNum)
 {
@@ -433,9 +434,8 @@ exports.getPadDeckDocument = function (padId, revNum, noDocType, callback)
   {
     if(ERR(err, callback)) return;
 
-    var head = (noDocType ? '' : '<!doctype html>\n') + '<html lang="en">\n' + (noDocType ? '' : '<head>\n' + '<meta charset="utf-8">\n' + '<style> * { font-family: arial, sans-serif;\n' + 'font-size: 13px;\n' + 'line-height: 17px; }</style>\n' + '</head>\n') + '<body>';
-
-    var foot = '</body>\n</html>\n';
+    var head = fs.readFileSync('../static/deck_header.html');
+    var foot = fs.readFileSync('../static/deck_footer.html');
 
     getPadHTML(pad, revNum, function (err, html)
     {

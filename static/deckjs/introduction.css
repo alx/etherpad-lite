@@ -1,0 +1,25 @@
+.deck-container {
+  width: auto;
+  max-width: 864px;
+  margin: 16px auto 24px auto;
+  height: 560px;
+  font-size: 16px;
+}
+.no-boxshadow .deck-container {
+  border: 1px solid #e4e4e4;
+}
+.boxshadow .deck-container {
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+@media print {
+  header, footer {
+    display: none !important;
+  }
+
+  .deck-container {
+    font-size: 1.25em;
+  }
+}
