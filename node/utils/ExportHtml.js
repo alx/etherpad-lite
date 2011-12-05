@@ -438,9 +438,10 @@ exports.getPadDeckDocument = function (padId, revNum, noDocType, callback)
     var foot = fs.readFileSync('../static/deck_footer.html');
 
     var plainText =getPadPlainText(pad);
-    plainText = plainText.replace("== next_slide ==", '</div><section class="slide">');
 
     var html = '<section class="slide">' + require( "markdown" ).markdown.toHTML(plainText) + '</div>';
+    html = html.replace("<p>== next_slide ==</p>", '</div><section class="slide">');
+
 
     callback(null, head + html + foot);
   });
