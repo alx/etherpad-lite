@@ -22,10 +22,10 @@ var fs = require("fs");
 
 function getPadPlainText(pad, revNum)
 {
-  var atext = ((revNum !== undefined) ? pad.getInternalRevisionAText(revNum) : pad.atext());
+  var atext = ((revNum !== undefined) ? pad.getInternalRevisionAText(revNum) : pad.atext);
   var textLines = atext.text.slice(0, -1).split('\n');
   var attribLines = Changeset.splitAttributionLines(atext.attribs, atext.text);
-  var apool = pad.pool();
+  var apool = pad.pool;
 
   var pieces = [];
   for (var i = 0; i < textLines.length; i++)
