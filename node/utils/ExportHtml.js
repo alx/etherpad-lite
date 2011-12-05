@@ -437,11 +437,9 @@ exports.getPadDeckDocument = function (padId, revNum, noDocType, callback)
     var head = fs.readFileSync('../static/deck_header.html');
     var foot = fs.readFileSync('../static/deck_footer.html');
 
-    getPadHTML(pad, revNum, function (err, html)
-    {
-      if(ERR(err, callback)) return;
-      callback(null, head + html + foot);
-    });
+    var html = require( "markdown" ).markdown.toHTML(getPadPlainText(pad));
+
+    callback(null, head + html + foot);
   });
 }
 
