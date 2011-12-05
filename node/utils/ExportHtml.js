@@ -427,6 +427,24 @@ exports.getPadHTMLDocument = function (padId, revNum, noDocType, callback)
   });
 }
 
+exports.getPadDeckDocument = function (padId, revNum, noDocType, callback)
+{
+  padManager.getPad(padId, function (err, pad)
+  {
+    if(ERR(err, callback)) return;
+
+    var head = (noDocType ? '' : '<!doctype html>\n') + '<html lang="en">\n' + (noDocType ? '' : '<head>\n' + '<meta charset="utf-8">\n' + '<style> * { font-family: arial, sans-serif;\n' + 'font-size: 13px;\n' + 'line-height: 17px; }</style>\n' + '</head>\n') + '<body>';
+
+    var foot = '</body>\n</html>\n';
+
+    getPadHTML(pad, revNum, function (err, html)
+    {
+      if(ERR(err, callback)) return;
+      callback(null, head + html + foot);
+    });
+  });
+}
+
 function _escapeHTML(s)
 {
   var re = /[&<>]/g;
