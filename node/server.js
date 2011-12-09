@@ -384,6 +384,14 @@ async.waterfall([
       });
     });
     
+    //serve tree.html under /
+    app.get('/tree/:name', function(req, res)
+    {
+      res.header("Server", serverName);
+      var filePath = path.normalize(__dirname + "/../static/tree.html");
+      res.sendfile(filePath, { maxAge: exports.maxAge });
+    });
+
     //serve index.html under /
     app.get('/', function(req, res)
     {
