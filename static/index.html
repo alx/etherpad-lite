@@ -1,148 +1,101 @@
-
 <!doctype html>
-<html>   
-        <title>Etherpad Lite</title> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <style> 
-            *{ margin:0;padding:0; }
-            body {
-              background: rgba(0,0,0,.05);
-              color: #333;
-              font: 14px helvetica,sans-serif;
-              background: #ccc;
-              background: -webkit-radial-gradient(circle,#aaa,#eee 60%) center fixed;
-              background: -moz-radial-gradient(circle,#aaa,#eee 60%) center fixed;
-              background: -ms-radial-gradient(circle,#aaa,#eee 60%) center fixed;
-              background: -o-radial-gradient(circle,#aaa,#eee 60%) center fixed;
-              overflow-x: hidden;
-              border-top: 8px solid rgba(51,51,51,.8);
-            }
-            #container {
-              text-shadow: 0 1px 1px #fff;
-              border-top: 1px solid #999;
-              margin-top: 160px;
-              text-align: center;
-              padding: 15px;
-              background: #eee;
-              background: -webkit-linear-gradient(#fff,#ccc);
-              background: -moz-linear-gradient(#fff,#ccc);
-              background: -ms-linear-gradient(#fff,#ccc);
-              background: -o-linear-gradient(#fff,#ccc);
-              opacity: .9;
-              box-shadow: 0px 1px 8px rgba(0,0,0,0.3);
-            }
-            #button {
-              margin: 0 auto;
-              border-radius: 3px;
-              text-align: center;
-              font: 36px verdana,arial,sans-serif;
-              color: white;
-              text-shadow: 0 -1px 0 rgba(0,0,0,.8);
-              height: 70px;
-              line-height: 70px;
-              width: 300px;
-              background: #555;
-              background: -webkit-linear-gradient(#5F5F5F,#565656 50%,#4C4C4C 51%,#373737);
-              background: -moz-linear-gradient(#5F5F5F,#565656 50%,#4C4C4C 51%,#373737);
-              background: -ms-linear-gradient(#5F5F5F,#565656 50%,#4C4C4C 51%,#373737);
-              background: -o-linear-gradient(#5F5F5F,#565656 50%,#4C4C4C 51%,#373737);
-              box-shadow: inset 0 1px 3px rgba(0,0,0,0.9);
-            }
-            #button:hover {
-              cursor: pointer;
-              background: #666;
-              background: -webkit-linear-gradient(#707070,#666666 50%,#5B5B5B 51%,#474747);
-              background: -moz-linear-gradient(#707070,#666666 50%,#5B5B5B 51%,#474747);
-              background: -ms-linear-gradient(#707070,#666666 50%,#5B5B5B 51%,#474747);
-              background: -o-linear-gradient(#707070,#666666 50%,#5B5B5B 51%,#474747);
-            }
-            #button:active {
-              box-shadow: inset 0 1px 12px rgba(0,0,0,0.9);
-              background: #444;
-            }
-            #label {
-              text-align: left;
-              margin: 0 auto;
-              width: 300px;
-            }
-            input {
-              vertical-align: middle;
-              font-weight: bold;
-              font-size: 15px;
-            }
-            input[type="text"] {
-              width: 243px;
-              padding: 10px 47px 10px 10px;
-              background: #fff;
-              border: 1px solid #bbb;
-              outline: none;
-              border-radius: 3px;
-              text-shadow: 0 0 1px #fff;
-            }
-            input[type="submit"] {
-              width: 45px;
-              margin-left: -50px;
-              padding: 8px;
-            }
-            input[type="submit"]::-moz-focus-inner { border: 0 }
-            @-moz-document url-prefix() { input[type="submit"] { padding: 7px } }     
-            @media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
-              body {
-                background: #bbb;
-                background: -webkit-linear-gradient(#aaa,#eee 60%) center fixed;
-                height: 100%;
-              }
-              #container {
-                margin-top: 0;
-                text-align: left;
-              }
-              #button, #label {
-                text-align: center;
-                width: 95%;        
-              }
-              form {
-               text-align: center;
-              }
-              input[type=text] {
-                width: 75%;
-              }
-            }
-        </style> 
-        <link href="static/custom/index.css" rel="stylesheet"> 
-        <script src="static/custom/index.js"></script>
-        <div id="container"> 
-            <div id="button" onclick="go2Random()" class="translate">New Pad</div><br><div id="label" class="translate">or create/open a Pad with the name</div> 
-            <form action="#" onsubmit="go2Name();return false;"> 
-                    <input type="text" id="padname" autofocus> 
-                    <input type="submit" value="OK"> 
-            </form> 
-        </div> 
-        <script> 
-            function go2Name() 
-            {
-                var padname = document.getElementById("padname").value;
-                padname.length > 0 ? window.location = "p/" + padname : alert("Please enter a name")
-            }
- 
-            function go2Random() 
-            {
-                window.location = "p/" + randomPadName();
-            }
- 
-            function randomPadName() 
-            {
-                var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-                var string_length = 10;
-                var randomstring = '';
-                for (var i = 0; i < string_length; i++) 
-                {
-                    var rnum = Math.floor(Math.random() * chars.length);
-                    randomstring += chars.substring(rnum, rnum + 1);
-                }
-                return randomstring;
-            }
-            
-            //start the costum js
-            if(typeof costumStart == "function") costumStart();
-        </script> 
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/b/378 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <title>Tetalab de Noël</title>
+  <meta name="description" content="Le noël du Tetalab">
+  <meta name="author" content="Tetalab">
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/custom/index.css" rel="stylesheet"> 
+
+  <style type="text/css">
+  </style>
+
+  <script src="static/js/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="media-grid" style="text-align:center;padding:10px;">
+      <img src="static/img/tree_postman.jpg" alt="Postman">
+    </div>
+    <div class="row">
+      <div class="span7 offset2">
+        <h2>Créer votre Arbre de Noël</h2>
+      </div>
+      <div class="span6">
+        <form action="#" onsubmit="go2Tree();return false;">
+          <input class="span3" type="text" id="treename" autofocus> 
+          <input class="btn primary disabled" type="submit" value="OK"> 
+       </form>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="span4">
+        <h2>Liste des arbres</h2>
+        <p>Une fois que vous avez créé votre arbre de noël, vous pourrez le retrouver dans cette liste.</p>
+      </div>
+      <div class="span12">
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="span4">
+        <h2>Qu'est-ce donc?</h2>
+        <p>Explication sur l'arbre de noël numérique</p>
+      </div>
+      <div class="span12">
+        <h2>Pourquoi?</h2>
+        <p>Parce que je ne pouvais pas quitter Toulouse à Noël 2009, j'ai créé mon premier arbre de Noël numérique:</p>
+        <p><a href="http://noel.alexgirard.com">http://noel.alexgirard.com</a></p>
+        <ul>
+          <li>parce que je voulais quand même offrir des cadeaux aux personnes que je ne verrai pas</li>
+          <li>parce qu'il y a beaucoup de super cadeau à faire avec toute la culture disponible en ligne</li>
+          <li>parce que ça ne coûte pas chèr, et que ça m'amuse plutôt de passer quelques heures à développer ce concept</li>
+          <li>parce que tout le monde ne comprendrait pas que je leur offre quelques lignes de codes</li>
+        </ul>
+        <h2>Comment?</h2>
+        <p>Le plus simple est de créer votre propre arbre de noël, puis de rajouter des cadeaux dedans pour les personnes que vous connaissez</p>
+        <p>Copier ensuite l'adresse de l'arbre, envoyez-là a vos amis pour qu'ils rajoutent leur cadeaux.</p>
+        <p>Le 25 décembre, chaque personne recevra un mail pour leur dire qu'ils peuvent ouvrir leurs cadeaux.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="static/js/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <script src="static/custom/index.js"></script>
+
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script defer src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script defer>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+</body>
 </html>
