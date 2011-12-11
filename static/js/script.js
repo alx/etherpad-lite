@@ -1,6 +1,18 @@
+function sanitizeUnicode(s)
+{
+  return s.replace(/[\uffff\ufffe\ufeff\ufdd0-\ufdef\ud800-\udfff]/g, '?');
+}
+
+function textify(str)
+{
+  return sanitizeUnicode(
+  str.replace(/[\n\r ]/g, ' ').replace(/\xa0/g, ' ').replace(/\t/g, '        '));
+}
+
+
 function go2Tree() {
-    var treeName = $("#treename").val();
-      treeName.length > 0 ? window.location = "trees/" + treeName : $("#alert-treename").show(200);
+    var treeName = textify($("#treename").val());
+    treeName.length > 0 ? window.location = "tree/" + treeName : $("#alert-treename").show(200);
 }
 
 
@@ -12,13 +24,10 @@ $(document).ready(function() {
         var items = [];
 
         $.each(data, function() {
-          items.push('<li id="tree-' + this.id + '"><a href="tree/' + this.name + '">' + this.name + '</a></li>');
+          items.push('<h3 id="tree-' + this.id + '"><a href="tree/' + this.name + '">' + this.name + '</a></h3>');
         });
 
-        $('<ul/>', {
-          'class': 'list',
-          html: items.join('')
-        }).appendTo('#treeList');
+        $("#treeList").append(items.join(''));
       });
     }
 });
