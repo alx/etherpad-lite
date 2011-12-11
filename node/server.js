@@ -41,6 +41,35 @@ var padManager;
 var securityManager;
 var socketIORouter;
 
+if(settings.dbType == "mysql"){
+  var mysql = require('mysql');
+  var client = mysql.createClient({
+    user: settings.dbSettings.user,
+    password: settings.dbSettings.pass,
+    database: settings.dbSettings.database
+  });
+
+  client.query(
+    'CREATE TABLE IF NOT EXISTS tree '+
+    '(id INT(11) AUTO_INCREMENT, '+
+    'name TEXT, '+
+    'created DATETIME, '+
+    'PRIMARY KEY (id))'
+  );
+
+  client.query(
+    'CREATE TABLE IF NOT EXISTS gift '+
+    '(id INT(11) AUTO_INCREMENT, '+
+    'pad_id TEXT, ' +
+    'dest_name TEXT, ' +
+    'dest_email TEXT, ' +
+    'tree_id int(11) DEFAULT NULL, ' +
+    'created DATETIME, '+
+    'PRIMARY KEY (id))'
+  );
+
+}
+
 //try to get the git version
 var version = "";
 try
@@ -387,10 +416,36 @@ async.waterfall([
     //serve tree.html under /
     app.get('/tree/:name', function(req, res)
     {
+      var treeName = req.params.name;
+      client.query(
+        "SELECT * FROM tree WHERE name = ?", [treeName],
+        function selectTree(err, results, fields){
+          if(results.length == 0){
+            var date = new Date;
+            var mysql_date = date.getFullYear() + "-" + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + "-" + (date.getDate() < 10 ? '0' : '') + date.getDate() + " ";
+            mysql_date += date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            client.query("INSERT INTO tree SET name = ?, created = ?", [treeName, mysql_date]);
+          }
+        }
+      );
       res.header("Server", serverName);
       var filePath = path.normalize(__dirname + "/../static/tree.html");
       res.sendfile(filePath, { maxAge: exports.maxAge });
     });
+
+    app.get('/trees', function(req, res)
+    {
+      console.log("trees");
+      res.header("Server", serverName);
+      res.contentType('application/json');
+      client.query(
+        "SELECT * FROM tree", function(err, results, fields){
+        console.log(results);
+          res.json(results);
+        }
+      );
+    });
+
 
     //serve index.html under /
     app.get('/', function(req, res)

@@ -6,4 +6,19 @@ function go2Tree() {
 
 $(document).ready(function() {
     $("#alert-treename").alert();
+
+    if($("#treeList").length > 0){
+      $.getJSON("/trees", function(data){
+        var items = [];
+
+        $.each(data, function() {
+          items.push('<li id="tree-' + this.id + '"><a href="tree/' + this.name + '">' + this.name + '</a></li>');
+        });
+
+        $('<ul/>', {
+          'class': 'list',
+          html: items.join('')
+        }).appendTo('#treeList');
+      });
+    }
 });
