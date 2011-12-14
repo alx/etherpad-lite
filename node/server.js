@@ -437,15 +437,26 @@ async.waterfall([
 
     app.get('/trees', function(req, res)
     {
-      console.log("trees");
       res.header("Server", serverName);
       res.contentType('application/json');
       client.query(
         "SELECT * FROM tree", function(err, results, fields){
-        console.log(results);
           res.json(results);
         }
       );
+    });
+
+    app.get('/tree/:name/gifts', function(req, res)
+    {
+      console.log("trees");
+      res.header("Server", serverName);
+      res.contentType('application/json');
+      client.query("SELECT id FROM tree WHERE name = ?", [req.params.name],
+        function selectGift(err, results, fields){
+          client.query("SELECT from_name, dest_name FROM gift WHERE tree_id = ?", [results[0].id], function(err, results, fields){
+          res.json(results);
+          });
+      });
     });
 
     app.post('/tree/:name/gifts', express.bodyParser(), function(req, res)
@@ -457,7 +468,6 @@ async.waterfall([
           var date = new Date;
           var mysql_date = date.getFullYear() + "-" + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + "-" + (date.getDate() < 10 ? '0' : '') + date.getDate() + " ";
           mysql_date += date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-          console.log("pad id " + req.body.pad);
           client.query("INSERT INTO gift SET \
                         pad_id = ?, tree_id= ?, \
                         from_name = ?, from_email = ?, \

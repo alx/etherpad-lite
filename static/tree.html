@@ -23,22 +23,12 @@
   <link href="../static/custom/index.css" rel="stylesheet"> 
 
   <style type="text/css">
-    body{padding-top:60px;}
   </style>
 
   <script src="../static/js/modernizr-2.0.6.min.js"></script>
 </head>
 
 <body>
-
-  <div class="topbar">
-    <div class="fill">
-      <div class="container">
-        <a class="brand" href="#">Arbre de Noël</a>
-        <p class="pull-right"><a id="addGift" class="btn primary">Ajouter un cadeau</a></p>
-      </div>
-    </div>
-  </div>
 
   <div class="container">
 
@@ -51,25 +41,27 @@
         <p>Ces informations permettront de contacter le destinaire le matin du 25 décembre.</p>
         <form>
           <fieldset>
-            <legend>Quel est le destinataire?</legend>
-            <div class="input">
+            <legend>Un cadeau pour qui?</legend>
+            <div id="dest_name_input" class="clearfix">
               <label for="dest[name]">Son prénom</label>
-              <input class="xlarge" id="dest_name" name="dest[name]" size="30" type="text">
+              <input class="xlarge required" id="dest_name" name="dest[name]" size="30" type="text">
+              <span class="help-inline hide">Pour savoir à qui est destiné ce cadeau.</span>
             </div>
-            <div class="input">
+            <div class="clearfix">
               <label for="dest[email]">Son email</label>
-              <input class="xlarge" id="dest_email" name="dest[email]" size="30" type="text">
+              <input class="xlarge email" id="dest_email" name="dest[email]" size="30" type="text">
             </div>
           </fieldset>
           <fieldset>
             <legend>Qui êtes-vous?</legend>
-            <div class="input">
+            <div id="from_name_input" class="clearfix">
               <label for="from[name]">Votre prénom</label>
-              <input class="xlarge" id="from_name" name="from[name]" size="30" type="text">
+              <input class="xlarge required" id="from_name" name="from[name]" size="30" type="text">
+              <span class="help-inline hide">Pour savoir qui a fait ce cadeau.</span>
             </div>
-            <div class="input">
+            <div class="clearfix">
               <label for="from[email]">Votre email</label>
-              <input class="xlarge" id="from_name" name="from[email]" size="30" type="text">
+              <input class="xlarge email" id="from_name" name="from[email]" size="30" type="text">
             </div>
           </fieldset>
           <input type="hidden" id="pad" name="pad" value="">
@@ -95,13 +87,24 @@
       <img src="../static/img/tree_gift_color.jpg" alt="Gifts"
       height="600">
     </div>
+
     <div class="row">
-      <div class="span4">
-        <h2>Liste des cadeaux</h2>
+      <div class="span6 offset2">
+        <h2>Cadeaux sous le sapin</h2>
+        <p>Ajoutez un cadeau pour le retrouver dans cette liste.</p>
+        <p>Vous pourrez ouvrir les cadeaux à partir du 25 décembre.</p>
       </div>
-      <div class="span12">
+      <div class="span6">
+        <p class='pull-right'><a id="addGift" class="btn primary">Ajouter un cadeau</a></p>
       </div>
     </div>
+
+
+    <div class="row">
+      <div id="giftList" class="span6 offset6">
+      </div>
+    </div>
+
   </div>
 
   <!-- JavaScript at the bottom for fast page loading -->
