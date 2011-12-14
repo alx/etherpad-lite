@@ -61,6 +61,8 @@ if(settings.dbType == "mysql"){
     'CREATE TABLE IF NOT EXISTS gift '+
     '(id INT(11) AUTO_INCREMENT, '+
     'pad_id TEXT, ' +
+    'from_name TEXT, ' +
+    'from_email TEXT, ' +
     'dest_name TEXT, ' +
     'dest_email TEXT, ' +
     'tree_id int(11) DEFAULT NULL, ' +
@@ -446,6 +448,30 @@ async.waterfall([
       );
     });
 
+    app.post('/tree/:name/gifts', express.bodyParser(), function(req, res)
+    {
+      client.query(
+        "SELECT id FROM tree WHERE name = ?", [req.params.name],
+        function insertGift(err, results, fields){
+          var tree_id = results[0].id;
+          var date = new Date;
+          var mysql_date = date.getFullYear() + "-" + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + "-" + (date.getDate() < 10 ? '0' : '') + date.getDate() + " ";
+          mysql_date += date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          console.log("pad id " + req.body.pad);
+          client.query("INSERT INTO gift SET \
+                        pad_id = ?, tree_id= ?, \
+                        from_name = ?, from_email = ?, \
+                        dest_name = ?, dest_email = ?, \
+                        created = ?",
+                        [req.body.pad, tree_id,
+                        req.body.from.name, req.body.from.email,
+                        req.body.dest.name, req.body.dest.email,
+                        mysql_date]
+          );
+        }
+      );
+      res.json('ok', 200);
+    });
 
     //serve index.html under /
     app.get('/', function(req, res)

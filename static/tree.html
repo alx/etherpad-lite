@@ -35,12 +35,62 @@
     <div class="fill">
       <div class="container">
         <a class="brand" href="#">Arbre de Noël</a>
-        <p class="pull-right"><a class="btn primary">Ajouter un cadeau</a></p>
+        <p class="pull-right"><a id="addGift" class="btn primary">Ajouter un cadeau</a></p>
       </div>
     </div>
   </div>
 
   <div class="container">
+
+    <div id="giftForm" class="modal hide fade">
+      <div class="modal-header">
+        <a href="#" class="close">x</a>
+        <h3>Étiquette du cadeau</h3>
+      </div>
+      <div class="modal-body">
+        <p>Ces informations permettront de contacter le destinaire le matin du 25 décembre.</p>
+        <form>
+          <fieldset>
+            <legend>Quel est le destinataire?</legend>
+            <div class="input">
+              <label for="dest[name]">Son prénom</label>
+              <input class="xlarge" id="dest_name" name="dest[name]" size="30" type="text">
+            </div>
+            <div class="input">
+              <label for="dest[email]">Son email</label>
+              <input class="xlarge" id="dest_email" name="dest[email]" size="30" type="text">
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Qui êtes-vous?</legend>
+            <div class="input">
+              <label for="from[name]">Votre prénom</label>
+              <input class="xlarge" id="from_name" name="from[name]" size="30" type="text">
+            </div>
+            <div class="input">
+              <label for="from[email]">Votre email</label>
+              <input class="xlarge" id="from_name" name="from[email]" size="30" type="text">
+            </div>
+          </fieldset>
+          <input type="hidden" id="pad" name="pad" value="">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="giftFormSubmit" class="btn primary">Étiquetter</a>
+      </div>
+    </div>
+
+    <div id="giftEditor" class="modal hide fade">
+      <div class="modal-header">
+        <h3>Contenu du cadeau</h3>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <a id="giftEditorSubmit" class="btn primary">Emballer</a>
+      </div>
+    </div>
+
     <div class="media-grid" style="text-align:center;padding:10px;">
       <img src="../static/img/tree_gift_color.jpg" alt="Gifts"
       height="600">
@@ -61,6 +111,9 @@
   <script>window.jQuery || document.write('<script src="../static/js/jquery-1.7.1.min.js"><\/script>')</script>
 
   <script src="../static/js/bootstrap-alerts.js"></script>
+  <script src="../static/js/bootstrap-modal.js"></script>
+  <script src="../static/js/etherpad.js"></script>
+  <script src="../static/js/jquery.cookie.js"></script>
 
   <script src="../static/js/tree.js"></script>
 
