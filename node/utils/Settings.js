@@ -73,6 +73,8 @@ exports.loglevel = "INFO";
  */
 exports.httpAuth = null;
 
+exports.mailer = null;
+
 //read the settings sync
 var settingsStr = fs.readFileSync("../settings.json").toString();
 

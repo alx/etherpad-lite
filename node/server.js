@@ -42,7 +42,14 @@ var securityManager;
 var socketIORouter;
 var nodemailer = require('nodemailer');
 
-nodemailer.sendmail = true;
+nodemailer.SMTP = {
+    host: 'smtp.gmail.com',
+    port: 465,
+    ssl: true,
+    use_authentication: true,
+    user: settings.mailer.user,
+    pass: settings.mailer.pass
+}
 
 if(settings.dbType == "mysql"){
   var mysql = require('mysql');
