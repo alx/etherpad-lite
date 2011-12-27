@@ -516,7 +516,7 @@ async.waterfall([
               function(error, success){
                 console.log('Message ' + success ? 'sent' : 'failed');
                 if(success){
-                  client.query("UPDATE gift SET delivered = 1 WHERE id = ?", gift.id);
+                  client.query("UPDATE gift SET delivered = 1 WHERE id = ?", [gift.id]);
                 }
               }); // callback
             }; // if gift...
