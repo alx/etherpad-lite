@@ -40,6 +40,9 @@ var readOnlyManager;
 var padManager;
 var securityManager;
 var socketIORouter;
+var nodemailer = require('nodemailer');
+
+nodemailer.sendmail = true;
 
 if(settings.dbType == "mysql"){
   var mysql = require('mysql');
@@ -481,6 +484,25 @@ async.waterfall([
         }
       );
       res.json('ok', 200);
+    });
+
+    app.get('/test-mail', function(req, res)
+    {
+      // send an e-mail
+      nodemailer.send_mail(
+      // e-mail options
+      {
+        sender: 'noel@tetalab,org',
+        to:'test@alexgirard.com',
+        subject:'Hello!',
+        html: '<p><b>Hi,</b> how are you doing?</p>',
+        body:'Hi, how are you doing?'
+      },
+      // callback function
+      function(error, success){
+        console.log('Message ' + success ? 'sent' : 'failed');
+      });
+      res.json('ok', 200)
     });
 
     //serve index.html under /
