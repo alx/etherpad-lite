@@ -501,6 +501,7 @@ async.waterfall([
           for (var i = 0; i < results.length; i++) {
             var gift = results[i];
             if(gift.from_email.length > 0 && gift.dest_email.length > 0){
+              client.query("UPDATE gift SET delivered = 1 WHERE id = ?", [gift.id]);
               // send an e-mail
               nodemailer.send_mail(
               //to:gift.dest_email,
@@ -514,9 +515,6 @@ async.waterfall([
               },
               // callback function
               function(error, success){
-                if(success){
-                  client.query("UPDATE gift SET delivered = 1 WHERE id = ?", [gift.id]);
-                }
                 console.log('Message ' + success ? 'sent' : 'failed');
               }); // callback
             }; // if gift...
