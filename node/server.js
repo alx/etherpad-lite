@@ -514,10 +514,10 @@ async.waterfall([
               },
               // callback function
               function(error, success){
-                console.log('Message ' + success ? 'sent' : 'failed');
                 if(success){
                   client.query("UPDATE gift SET delivered = 1 WHERE id = ?", [gift.id]);
                 }
+                console.log('Message ' + success ? 'sent' : 'failed');
               }); // callback
             }; // if gift...
           }; // for results...
