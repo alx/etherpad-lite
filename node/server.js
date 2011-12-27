@@ -500,7 +500,7 @@ async.waterfall([
         function listGift(err, results, fields){
           for (var i = 0; i < results.length; i++) {
             var gift = results[i];
-            if(gitf.from_email.length > 0 && gift.dest_email.length > 0){
+            if(gift.from_email.length > 0 && gift.dest_email.length > 0){
               // send an e-mail
               nodemailer.send_mail(
               // e-mail options
