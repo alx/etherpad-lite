@@ -499,7 +499,7 @@ async.waterfall([
       nodemailer.send_mail(
       // e-mail options
       {
-        sender: 'noel@tetalab,org',
+        sender: 'tatibotto@gmail.com',
         to:'test@alexgirard.com',
         subject:'Hello!',
         html: '<p><b>Hi,</b> how are you doing?</p>',
