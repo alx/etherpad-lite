@@ -496,24 +496,29 @@ async.waterfall([
     app.get('/test-mail', function(req, res)
     {
       client.query(
-        "SELECT * FROM gift",
+        "SELECT * FROM gift WHERE delivered = 0",
         function listGift(err, results, fields){
           for (var i = 0; i < results.length; i++) {
             var gift = results[i];
             if(gift.from_email.length > 0 && gift.dest_email.length > 0){
               // send an e-mail
               nodemailer.send_mail(
+              //to:gift.dest_email,
+              //cc:gift.from_email,
               // e-mail options
               {
-                sender: gift.from_email,
-                to:'test@alexgirard.com',
+                sender: 'tatibotto@gmail.com',
+                to:'test.alexgirard.com',
                 subject:'noel.tetalab.org - Ouvres tes cadeaux!',
-                html: '<p><b>Bonjour ' + gift.dest_name + ',</b> tu reçois ce mail car ' + gift.from_name + ' t\'as déposé un cadeau sur <a href="http://noel.tetalab.org">noel.tetalab.org</a></p><p>Tu peux l\'ouvrir en te rendant sur <a href="http://noel.tetalab.org/p/' + gift.pad_id + '">noel.tetalab.org/p/' + gift.pad_id + '</a></p><p>Joyeux Noël!</p>'
+                html: '<p>Bonjour ' + gift.dest_name + ', tu reçois ce mail car ' + gift.from_name + ' - <a href="mailto:' + gift.from_email + '>' + gift.from_email + '</a>" - t\'as déposé un cadeau sur <a href="http://noel.tetalab.org">noel.tetalab.org</a></p><p>Tu peux l\'ouvrir en te rendant sur <a href="http://noel.tetalab.org/p/' + gift.pad_id + '">noel.tetalab.org/p/' + gift.pad_id + '</a></p><p>Joyeux Noël!</p>'
               },
               // callback function
               function(error, success){
                 console.log('Message ' + success ? 'sent' : 'failed');
-              });
+                if(success){
+                  client.query("UPDATE gift SET delivered = 1 WHERE id = ?", gift.id);
+                }
+              }); // callback
             }; // if gift...
           }; // for results...
         } // function listGift
