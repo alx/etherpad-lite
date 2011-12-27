@@ -504,12 +504,11 @@ async.waterfall([
               client.query("UPDATE gift SET delivered = 1 WHERE id = ?", [gift.id]);
               // send an e-mail
               nodemailer.send_mail(
-              //to:gift.dest_email,
-              //cc:gift.from_email,
               // e-mail options
               {
                 sender: 'tatibotto@gmail.com',
-                to:'test@alexgirard.com',
+                to:gift.dest_email,
+                cc:gift.from_email,
                 subject:'noel.tetalab.org - Ouvres tes cadeaux!',
                 html: '<p>Bonjour ' + gift.dest_name + ', tu reçois ce mail car ' + gift.from_name + ' - <a href="mailto:' + gift.from_email + '">' + gift.from_email + '</a> - t\'as déposé un cadeau sur <a href="http://noel.tetalab.org">noel.tetalab.org</a></p><p>Tu peux l\'ouvrir en te rendant sur <a href="http://noel.tetalab.org/p/' + gift.pad_id + '">noel.tetalab.org/p/' + gift.pad_id + '</a></p><p>Joyeux Noël!</p>'
               },
