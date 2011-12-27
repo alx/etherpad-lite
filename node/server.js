@@ -496,7 +496,7 @@ async.waterfall([
     app.get('/test-mail', function(req, res)
     {
       client.query(
-        "SELECT * FROM gift", [req.params.name],
+        "SELECT * FROM gift",
         function listGift(err, results, fields){
           for (var i = 0; i < results.length; i++) {
             var gift = results[i];
