@@ -495,20 +495,29 @@ async.waterfall([
 
     app.get('/test-mail', function(req, res)
     {
-      // send an e-mail
-      nodemailer.send_mail(
-      // e-mail options
-      {
-        sender: 'tatibotto@gmail.com',
-        to:'test@alexgirard.com',
-        subject:'Hello!',
-        html: '<p><b>Hi,</b> how are you doing?</p>',
-        body:'Hi, how are you doing?'
-      },
-      // callback function
-      function(error, success){
-        console.log('Message ' + success ? 'sent' : 'failed');
-      });
+      client.query(
+        "SELECT * FROM gift", [req.params.name],
+        function listGift(err, results, fields){
+          for (var i = 0; i < results.length; i++) {
+            var gift = results[i];
+            if(gitf.from_email.length > 0 && gift.dest_email.length > 0){
+              // send an e-mail
+              nodemailer.send_mail(
+              // e-mail options
+              {
+                sender: gift.from_email,
+                to:'test@alexgirard.com',
+                subject:'noel.tetalab.org - Ouvres tes cadeaux!',
+                html: '<p><b>Bonjour ' + gift.dest_name + ',</b> tu reçois ce mail car ' + gift.from_name + ' t\'as déposé un cadeau sur <a href="http://noel.tetalab.org">noel.tetalab.org</a></p><p>Tu peux l\'ouvrir en te rendant sur <a href="http://noel.tetalab.org/p/' + gift.pad_id + '">noel.tetalab.org/p/' + gift.pad_id + '</a></p><p>Joyeux Noël!</p>'
+              },
+              // callback function
+              function(error, success){
+                console.log('Message ' + success ? 'sent' : 'failed');
+              });
+            }; // if gift...
+          }; // for results...
+        } // function listGift
+      ); // client.query
       res.json('ok', 200)
     });
 
